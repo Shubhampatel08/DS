@@ -1,0 +1,219 @@
+// singly linked list implementation
+
+#include<stdio.h>
+#include<stdlib.h>
+struct node 
+{
+	int info;
+	struct node *link;
+};
+struct node *first,*last;
+void insert_first(int x) 
+{
+	struct node *new_node;
+	new_node = (struct node*)malloc(sizeof(struct node*));
+	if(new_node==NULL)
+	{
+		printf("Memory Not Available.!");
+		return;
+	}
+	else if(first==NULL)
+	{
+		new_node->info=x;
+		new_node->link=NULL;
+		first=new_node;
+	}
+	else
+	{
+		new_node->info=x;
+		new_node->link=first;
+		first=new_node;
+	}
+}
+void insert_last(int x) 
+{
+	struct node *new_node;
+	new_node = (struct node*)malloc(sizeof(struct node*));
+	if(new_node==NULL)
+	{
+		printf("Memory Not Available.!");
+		return;
+	}
+	else if(first==NULL)
+	{
+		new_node->info=x;
+		new_node->link=NULL;
+		first=new_node;
+	}
+	else
+	{
+		new_node->info=x;
+		new_node->link=NULL;
+		struct node *temp;
+		temp=first;
+		while(temp->link!=NULL)
+		{
+			temp=temp->link;
+		}
+		temp->link=new_node;
+		new_node=last;
+	}
+}
+
+int delete_specific_node(int y)
+{
+	struct node*save,*pred;
+	int x;
+	if(first==NULL)
+	{
+		printf("Underflow!");
+		return 0;
+	}
+	else if(first->info==NULL)
+	{
+		if(y==first)
+		{
+			x=first->info;
+			free(first);
+			return x;
+		}
+		else{
+			printf("Node not found");
+		}
+	}
+	else{
+		save=pred=first;
+		while(save->link==NULL||y!=save->info)
+		{
+			pred=save;
+			save=save->link;
+		}
+		pred->link=save->link;
+		x=save->info;
+		free(save);
+		return x;
+	}
+}
+
+int delete_first()
+{
+	struct node *save;
+	int x;
+	if(first==NULL)
+	{
+		printf("underflow");
+		return 0;
+	}
+	else
+	{
+		save=first;
+		first=first->link;
+		x=save->info;
+		free(save);
+		return x;
+	}
+}
+
+int delete_last() 
+{
+	if(first==NULL)
+	{
+		printf("Underflow.!");
+		return 0;
+	}
+	else
+	{
+		struct node *save,*pred;
+		int x;
+		save=pred=first;
+		while(save->link!=NULL)
+		{
+			pred=save;
+			save=save->link;	
+		}
+		pred->link=NULL;
+		last=pred;
+		x=save->info;
+		free(save);
+		return x;
+	}
+}
+
+void display()
+{
+	struct node *temp;
+	temp=first;
+	while(temp->link!=NULL)
+	{
+		printf("%d ",temp->info);
+		temp=temp->link;
+	}
+	printf("%d ",temp->info);
+}
+
+void count_node()
+{
+	struct node *temp;
+	int count=1;
+	temp=first;
+	while(temp->link!=NULL)
+	{
+		temp=temp->link;
+		count++;
+	}
+	printf("%d ",count);
+}
+
+int main()
+{
+	int ch,x;
+	printf("----------Menu----------");
+	printf("\n1.Insert First\n2.Insert Last\n3.Display\n4.Delete From First\n5.Delete From Last\n6.Delete Specific\n7.Count Node\nPress -1 to Exit!");
+	printf("\nEnter Your Choice: ");
+	scanf("%d",&ch);
+	while(ch!=-1)
+	{
+		switch(ch)
+		{
+			case 1:
+				printf("Enter Number: ");
+				scanf("%d",&x);
+				insert_first(x);
+				break;
+			
+			case 2:
+				printf("Enter Number: ");
+				scanf("%d",&x);
+				insert_last(x);
+				break;
+				
+			case 3:
+				display();
+				break;
+				
+			case 4:
+				delete_first();
+				break;
+				
+			case 5:
+				delete_last();
+				break;
+				
+			case 6:
+				print("Enter Node After display");
+				scanf("%d",&x);
+				print("%d is Delete",Delete_specific_node(x));
+				break;
+				
+			case 7:
+				count_node();
+				break;
+			
+			default:
+				printf("\nInvalid Choice!");
+		}
+		printf("\nEnter Your Choice: ");
+		scanf("%d",&ch);
+	}
+	return 0;
+}
